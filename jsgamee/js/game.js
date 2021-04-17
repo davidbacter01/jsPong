@@ -1,11 +1,14 @@
-gameScreen = document.getElementById('gameScreen');
+const gameScreen = document.getElementById('gameScreen');
 gameScreen.width  = 800;
 gameScreen.height = 600;
-ctx = gameScreen.getContext('2d');
+const ctx = gameScreen.getContext('2d');
+const p1Score = document.getElementById('p1');
+const p2Score = document.getElementById('p2');
 
 
 class Paddle {
     constructor(x, y, ctx, keyCodes, color){
+        this.score = 0;
         this.maxSpeed = 6;
         this.color = color;
         this.speed = 0;
@@ -94,6 +97,11 @@ class Ball {
         this.ctx.fill()
     }
 
+    reset() {
+        this.x = gameScreen.width / 2;
+        this.y = gameScreen.height / 2;
+    }
+
     update() {
         this.x += this.speed.x;
         this.y += this.speed.y;
@@ -117,6 +125,19 @@ class Ball {
             if (this.x + this.radius > this.p2.x){
                 this.speed.x = -this.speed.x;
             }
+        }
+
+        // score sistem
+        if (this.x < this.p1.x){
+            this.p2.score += 1;
+            p2Score.innerHTML = this.p2.score;
+            this.reset();
+        }
+
+        if (this.x > this.p2.x + this.p2.width){
+            this.p1.score += 1;
+            p1Score.innerHTML = this.p1.score;
+            this.reset();
         }
 
         this.draw();
