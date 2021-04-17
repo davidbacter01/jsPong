@@ -1,8 +1,12 @@
 .game-screen{
-    width: 1280px;
-    height: 720px;
     border: solid 1px black;
+    color: white;
+    background-color: aliceblue;
 }
-#body{
+
+body{
     background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
