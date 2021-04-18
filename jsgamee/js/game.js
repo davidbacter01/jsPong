@@ -145,19 +145,25 @@ class Ball {
 }
 
 
-let paddlesY = gameScreen.height/2;
-const player1 = new Paddle(30, paddlesY, ctx, {up: 'w', down: 's'}, "#FF0000");
-const player2 = new Paddle(740, paddlesY, ctx, {up: 'ArrowUp', down: 'ArrowDown'}, "#0000FF");
-const controller = new Controller([player1, player2]);
-const ball = new Ball(gameScreen.width/2, gameScreen.height/2, 20, ctx, player1, player2);
+function startGame(){
+    const modal = document.querySelector('.game-start');
+    modal.style.display = 'none';
+    let paddlesY = gameScreen.height/2;
+    const player1 = new Paddle(30, paddlesY, ctx, {up: 'w', down: 's'}, "#FF0000");
+    const player2 = new Paddle(740, paddlesY, ctx, {up: 'ArrowUp', down: 'ArrowDown'}, "#0000FF");
+    const controller = new Controller([player1, player2]);
+    const ball = new Ball(gameScreen.width/2, gameScreen.height/2, 10, ctx, player1, player2);
 
+    function animateGame(){
+        requestAnimationFrame(animateGame);
+        ctx.clearRect(0, 0, gameScreen.width, gameScreen.height);
+        player1.update();
+        player2.update();
+        ball.update();
+    }
 
-function animateGame(){
-    requestAnimationFrame(animateGame);
-    ctx.clearRect(0, 0, gameScreen.width, gameScreen.height);
-    player1.update();
-    player2.update();
-    ball.update();
+    animateGame();
 }
 
-animateGame();
+const btn = document.querySelector('.btn');
+btn.addEventListener('click', startGame);

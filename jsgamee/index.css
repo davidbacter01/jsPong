@@ -14,3 +14,23 @@ body{
 p{
     color: white;
 }
+
+.game-start{
+    position: fixed;
+    background-color: black;
+    bottom: 400px;
+    right: 600px;
+    width: 300px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #73AD21;
+}
+
+.btn{
+    width: 100px;
+    height: 50px;
+    background-color: #73AD21;
+    color:aliceblue;
+}
