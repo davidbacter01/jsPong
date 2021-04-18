@@ -85,7 +85,7 @@ class Ball {
         this.y = y;
         this.radius = radius;
         this.ctx = ctx;
-        this.speed = {x: 3, y: 3};
+        this.speed = {x: 2, y: 2};
         this.p1 = p1;
         this.p2 = p2;
     }
@@ -97,9 +97,11 @@ class Ball {
         this.ctx.fill()
     }
 
-    reset() {
-        this.x = gameScreen.width / 2;
-        this.y = gameScreen.height / 2;
+    reset(x, y) {
+        this.x = x;
+        this.y = y;
+        this.speed.x = -this.speed.x;
+        // this.speed.y = -this.speed.y;
     }
 
     update() {
@@ -131,13 +133,13 @@ class Ball {
         if (this.x < this.p1.x){
             this.p2.score += 1;
             p2Score.innerHTML = this.p2.score;
-            this.reset();
+            this.reset(this.p1.x + this.p1.width + this.radius, this.p1.y);
         }
 
         if (this.x > this.p2.x + this.p2.width){
             this.p1.score += 1;
             p1Score.innerHTML = this.p1.score;
-            this.reset();
+            this.reset(this.p2.x - this.radius, this.p2.y);
         }
 
         this.draw();
