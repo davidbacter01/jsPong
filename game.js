@@ -4,6 +4,13 @@ gameScreen.height = 600;
 const ctx = gameScreen.getContext('2d');
 const p1Score = document.getElementById('p1');
 const p2Score = document.getElementById('p2');
+let paused = false;
+
+function pauseGame() {
+    paused = true;
+    const modal = document.querySelector('.game-start');
+    modal.style.display = 'flex';
+}
 
 
 class Paddle {
@@ -53,12 +60,16 @@ class Controller {
     constructor(players){
         this.players = players;
         addEventListener("keydown", (ev)=>{
+            console.log(ev.key);
             this.players.forEach(player => {
                 if (ev.key == player.controlKeys.up){
                     player.moveUp();
                 }
                 if (ev.key == player.controlKeys.down){
                     player.moveDown();
+                }
+                if (ev.key == 'Escape') {
+                    pauseGame();
                 }
             });            
         });
@@ -73,7 +84,7 @@ class Controller {
                 }
             });
             
-            delete keysPressed[ev.key];            
+            // delete keysPressed[ev.key];            
         });
     }
 }
@@ -150,6 +161,7 @@ class Ball {
 function startGame(){
     const modal = document.querySelector('.game-start');
     modal.style.display = 'none';
+    paused = false;
     let paddlesY = gameScreen.height/2;
     const player1 = new Paddle(30, paddlesY, ctx, {up: 'w', down: 's'}, "#FF0000");
     const player2 = new Paddle(740, paddlesY, ctx, {up: 'ArrowUp', down: 'ArrowDown'}, "#0000FF");
@@ -158,14 +170,22 @@ function startGame(){
 
     function animateGame(){
         requestAnimationFrame(animateGame);
-        ctx.clearRect(0, 0, gameScreen.width, gameScreen.height);
-        player1.update();
-        player2.update();
-        ball.update();
+        
+        if (!paused) {
+            ctx.clearRect(0, 0, gameScreen.width, gameScreen.height);
+            player1.update();
+            player2.update();
+            ball.update();
+        }
     }
 
     animateGame();
 }
 
-const btn = document.querySelector('.btn');
+const btn = document.querySelector('#start');
 btn.addEventListener('click', startGame);
+const resume = document.querySelector('#resume');
+resume.addEventListener('click', () => {
+    paused = false;
+    document.querySelector('.game-start').style.display = 'none';
+})
